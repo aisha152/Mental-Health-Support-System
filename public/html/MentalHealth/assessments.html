@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="../../assets/fav-icon.png" />
+  <title>Self Assessments • MindWell Hub</title>
+  <!-- Raleway Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <!-- Reuse Admin Dashboard Theme -->
+  <link rel="stylesheet" href="../../css/adminDashboard.css" />
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+  <style>
+    :root { --card-bg: #fff; --card-border: #e6e6e6; --accent: #4c6ef5; }
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body { background: #f7f8fb; display: flex; min-height: 100vh; overflow: hidden; }
+    nav.sidebar { position: sticky; top: 0; height: 100vh; }
+    .home { flex: 1; padding: 24px; padding-top: 24px; display: flex; justify-content: center; }
+    .container { width: min(900px, 94vw); max-height: calc(100vh - 64px); overflow: auto; }
+    .page-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .tool-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; }
+    .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .questions .q { display: flex; flex-direction: column; gap: 6px; }
+    .actions { display: flex; gap: 10px; margin: 12px 0; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--card-border); background: #fff; cursor: pointer; }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    #latest { margin-bottom: 12px; font-size: 14px; color: #333; }
+    label { font-size: 14px; color: #333; }
+    select { width: 100%; padding: 8px; border: 1px solid #d9d9d9; border-radius: 8px; }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .questions { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar copied from Admin Dashboard -->
+  <nav class="sidebar close">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="../../assets/fav-icon.png" alt="fav-icon" />
+        </span>
+        <div class="text logo-text">
+          <span class="name">MindWell</span>
+          <span class="profession">Hub</span>
+        </div>
+      </div>
+      <i class="bx bx-chevron-right toggle"></i>
+    </header>
+    <div class="menu-bar">
+      <div class="menu">
+        <li class="search-box">
+          <i class="bx bx-search icon"></i>
+          <input type="text" placeholder="Search..." />
+        </li>
+        <ul class="menu-links">
+          <li class="nav-link">
+            <a href="/adminDashboard">
+              <i class="bx bx-home-alt icon"></i>
+              <span class="text nav-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="/mental/mood">
+              <i class="bx bx-smile icon"></i>
+              <span class="text nav-text">Mood Tracker</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="/mental/assessments">
+              <i class="bx bx-clipboard icon"></i>
+              <span class="text nav-text">Self Assessments</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="/contactUs">
+              <i class="bx bx-phone icon"></i>
+              <span class="text nav-text">Contact Us</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="#" id="logout-link">
+              <i class="bx bx-log-out icon"></i>
+              <span class="text nav-text">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <section class="home">
+    <div class="container">
+    <div class="page-header">
+      <i class="bx bx-clipboard icon" style="font-size:22px"></i>
+      <h2>Self Assessments (PHQ-9)</h2>
+    </div>
+
+    <div class="tool-card">
+      <div id="latest">Loading latest assessment…</div>
+      <form id="assessmentForm">
+        <div class="questions">
+          <!-- 9 PHQ-9 Questions as selects -->
+          <div class="q">
+            <label>Q1: Little interest or pleasure in doing things</label>
+            <select data-q="1">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q2: Feeling down, depressed, or hopeless</label>
+            <select data-q="2">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q3: Trouble falling or staying asleep, or sleeping too much</label>
+            <select data-q="3">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q4: Feeling tired or having little energy</label>
+            <select data-q="4">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q5: Poor appetite or overeating</label>
+            <select data-q="5">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q6: Feeling bad about yourself or that you are a failure</label>
+            <select data-q="6">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q7: Trouble concentrating on things</label>
+            <select data-q="7">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q8: Moving or speaking slowly or being fidgety/restless</label>
+            <select data-q="8">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+          <div class="q">
+            <label>Q9: Thoughts that you would be better off dead or of hurting yourself</label>
+            <select data-q="9">
+              <option value="0">Not at all (0)</option>
+              <option value="1">Several days (1)</option>
+              <option value="2">More than half the days (2)</option>
+              <option value="3">Nearly every day (3)</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary"><i class="bx bx-send"></i> Submit Assessment</button>
+        </div>
+      </form>
+    </div>
+    </div>
+  </section>
+
+  <script>
+    const body = document.querySelector("body"),
+      sidebar = body.querySelector("nav"),
+      toggle = body.querySelector(".toggle"),
+      searchBtn = body.querySelector(".search-box");
+
+    toggle.addEventListener("click", () => { sidebar.classList.toggle("close"); });
+    searchBtn.addEventListener("click", () => { sidebar.classList.remove("close"); });
+  </script>
+  <script src="../../js/mhAssessments.js"></script>
+</body>
+
+</html>
