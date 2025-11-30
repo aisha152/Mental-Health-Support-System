@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mental Health System — Therapist Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnH2N2f1s3gk2p2iQZs0q3e9y5u1g6f1mJr23y7qZ2J1G2g8MGvQ9+7x0bK4q1b6Z2v3Zz6w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="therapist.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="sidebar-top">
+        <div class="logo-wrap" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#4a90e2"/><stop offset="1" stop-color="#3949ab"/></linearGradient>
+            </defs>
+            <path d="M32 12c-6 0-11 4-11 10 0 2 0 4 1 6 0 0-9 5-9 16 0 10 8 14 19 14s19-4 19-14c0-11-9-16-9-16 1-2 1-4 1-6 0-6-5-10-11-10z" fill="url(#g1)"/>
+            <circle cx="24" cy="22" r="2.2" fill="#fff" opacity="0.9"/>
+            <circle cx="40" cy="22" r="2.2" fill="#fff" opacity="0.9"/>
+          </svg>
+        </div>
+
+        <div class="sidebar-title">
+          <div class="title-main">Mental Health System</div>
+          <div class="title-sub">Therapist Dashboard</div>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="nav-list">
+          <li class="nav-item" onclick="showSection('overview')"><i class="fas fa-chart-line"></i> Overview</li>
+          <li class="nav-item" onclick="showSection('appointments')"><i class="fas fa-calendar-check"></i> Appointments</li>
+          <li class="nav-item" onclick="showSection('assessments')"><i class="fas fa-file-medical"></i> Assessments</li>
+          <li class="nav-item" onclick="showSection('notes')"><i class="fas fa-notes-medical"></i> Patient Notes</li>
+          <li class="nav-item" onclick="showSection('tasks')"><i class="fas fa-tasks"></i> Tasks & Reminders</li>
+          <li class="nav-item" onclick="showSection('tips')"><i class="fas fa-lightbulb"></i> Health Tips</li>
+          <li class="nav-item" onclick="showSection('charts')"><i class="fas fa-chart-pie"></i> Charts & Analysis</li>
+          <li class="nav-item" onclick="showSection('chat')"><i class="fas fa-comments"></i> Chat</li>
+          <li class="nav-item" onclick="showSection('profile')"><i class="fas fa-user"></i> Profile</li>
+          <li class="nav-item logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+      <section id="overview" class="section active" aria-labelledby="overview-heading">
+        <header class="section-header">
+          <div>
+            <h2 id="overview-heading">Daily Overview</h2>
+            <p class="muted">Quick snapshot of today's activity</p>
+          </div>
+          <div class="mini-controls">
+            <button class="control" id="dragOverviewHandle" title="Drag cards" aria-label="Drag overview cards"><i class="fas fa-grip-lines"></i></button>
+          </div>
+        </header>
+        <div class="draggable-container" id="overviewDraggable">
+          <div class="cards-grid" id="overviewCards" role="list" aria-label="Overview metrics">
+            <article class="card medium blue" role="listitem">
+              <h3>Today's Appointments</h3>
+              <p id="appointmentsCount" class="big-number">0</p>
+            </article>
+
+            <article class="card medium green">
+              <h3>Pending Assessments</h3>
+              <p id="pendingAssessments" class="big-number">0</p>
+            </article>
+
+            <article class="card medium orange">
+              <h3>Urgent Alerts</h3>
+              <p id="urgentAlerts" class="big-number">0</p>
+            </article>
+
+            <article class="card medium purple">
+              <h3>Total Patients</h3>
+              <p id="totalPatients" class="big-number">0</p>
+            </article>
+
+            <article class="card medium teal">
+              <h3>Messages</h3>
+              <p id="totalMessages" class="big-number">0</p>
+            </article>
+
+            <article class="card medium pink">
+              <h3>Today Completed</h3>
+              <p id="completedToday" class="big-number">0</p>
+            </article>
+
+            <article class="card medium gray">
+              <h3>New Registrations</h3>
+              <p id="newRegs" class="big-number">0</p>
+            </article>
+
+            <article class="card medium amber">
+              <h3>Follow-ups Due</h3>
+              <p id="followups" class="big-number">0</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="overview-chart" id="overviewChartCard">
+          <div class="chart-header">
+            <h4>Latest Assessment Scores</h4>
+            <button class="control" id="dragChartHandle" title="Drag chart" aria-label="Drag chart"><i class="fas fa-arrows-alt"></i></button>
+          </div>
+          <canvas id="overviewChart" width="860" height="240" aria-label="Assessment bar chart"></canvas>
+        </div>
+      </section>
+
+      <section id="appointments" class="section" aria-labelledby="appts-heading">
+        <header class="section-header">
+          <h2 id="appts-heading">Appointments</h2>
+          <p class="muted">Manage and reschedule patient sessions</p>
+        </header>
+
+        <div class="table-wrap">
+          <table class="appointments-table" aria-describedby="appts-heading">
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Date & Time</th>
+                <th>Mode</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="assessments" class="section" aria-labelledby="assess-heading">
+        <header class="section-header">
+          <h2 id="assess-heading">User Assessments</h2>
+          <p class="muted">Latest screening results</p>
+        </header>
+
+        <div class="assessment-grid" id="assessmentGrid">
+
+        </div>
+      </section>
+
+      <section id="notes" class="section" aria-labelledby="notes-heading">
+        <header class="section-header">
+          <h2 id="notes-heading">Patient Notes</h2>
+          <p class="muted">Quick notes & follow-ups (page filled)</p>
+        </header>
+
+        <div class="notes-grid" id="notesList">
+
+        </div>
+      </section>
+
+      <section id="tasks" class="section" aria-labelledby="tasks-heading">
+        <header class="section-header">
+          <h2 id="tasks-heading">Tasks & Reminders</h2>
+        </header>
+
+        <ul id="tasksList" class="task-list">
+        </ul>
+      </section>
+
+      <section id="tips" class="section" aria-labelledby="tips-heading">
+        <header class="section-header">
+          <h2 id="tips-heading">Health Tips & Articles</h2>
+        </header>
+
+        <div class="tips-vertical">
+          <button class="tip-toggle" onclick="toggleTip('tip1')" aria-expanded="false">5 Ways to Reduce Anxiety Daily <i class="fas fa-chevron-down"></i></button>
+          <div id="tip1" class="tip-details" role="region" aria-hidden="true">
+            <ol>
+              <li>Deep, diaphragmatic breathing (5–10 min).</li>
+              <li>Regular morning walks or light exercise.</li>
+              <li>Keep a short gratitude journal.</li>
+              <li>Limit caffeine after midday.</li>
+              <li>Talk to someone you trust.</li>
+            </ol>
+          </div>
+
+          <button class="tip-toggle" onclick="toggleTip('tip2')" aria-expanded="false">Meditation Techniques for Stress Relief <i class="fas fa-chevron-down"></i></button>
+          <div id="tip2" class="tip-details" role="region" aria-hidden="true">
+            <ol>
+              <li>Mindfulness breathing — focus on breath for 5–10 min.</li>
+              <li>Body-scan meditation to release tension.</li>
+              <li>Guided imagery — imagine a calm place.</li>
+              <li>Progressive muscle relaxation.</li>
+              <li>Short daily meditations (5 minutes).</li>
+            </ol>
+          </div>
+
+          <button class="tip-toggle" onclick="toggleTip('tip3')" aria-expanded="false">Quick Sleep Hygiene Tips <i class="fas fa-chevron-down"></i></button>
+          <div id="tip3" class="tip-details" role="region" aria-hidden="true">
+            <ul>
+              <li>Keep a consistent sleep schedule.</li>
+              <li>Limit screen time 1 hour before bed.</li>
+              <li>Make bedroom cool & dark.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="charts" class="section" aria-labelledby="charts-heading">
+        <header class="section-header">
+          <h2 id="charts-heading">Charts & Analysis</h2>
+        </header>
+
+        <div class="chart-card" id="chartsCard">
+          <canvas id="barChart" width="860" height="240" aria-label="Patient mood bar chart"></canvas>
+        </div>
+      </section>
+
+      <section id="chat" class="section" aria-labelledby="chat-heading">
+        <header class="section-header">
+          <h2 id="chat-heading">Chat with Patients</h2>
+          <p class="muted">Type a message and the bot will reply according to your message.</p>
+        </header>
+
+        <div class="chat-center">
+          <div class="chat-box" role="region" aria-live="polite">
+            <div id="chatMessages" class="chat-messages" tabindex="0">
+              <div class="message other"><strong>John:</strong> Hi Doctor!</div>
+              <div class="message me"><strong>You:</strong> Hello John, how are you feeling today?</div>
+            </div>
+
+            <div class="chat-input-row">
+              <input id="chatInput" type="text" placeholder="Type a message..." aria-label="Message input" />
+              <select id="personaSelect" title="Select persona" aria-label="Persona" class="persona-select">
+                <option value="patient">Patient</option>
+                <option value="therapist">Therapist (you)</option>
+              </select>
+              <button id="sendBtn" aria-label="Send message">Send</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="profile" class="section" aria-labelledby="profile-heading">
+        <header class="section-header">
+          <h2 id="profile-heading">My Profile</h2>
+        </header>
+
+        <form id="profileForm" class="profile-form" onsubmit="event.preventDefault(); saveProfile();">
+          <div class="profile-grid">
+            <div class="profile-left">
+              <div class="avatar" id="avatarCircle" title="Profile avatar">AI</div>
+              <h3 id="profileDisplayName">Dr. Alisha</h3>
+              <p class="muted" id="profileDisplaySpecialty">Mental Health, Anxiety, Depression</p>
+            </div>
+
+            <div class="profile-right">
+              <label>Full name
+                <input id="profileName" type="text" value="Dr. Alisha" required />
+              </label>
+
+              <label>Specialties
+                <input id="profileSpecialty" type="text" value="Mental Health, Anxiety, Depression" required />
+              </label>
+
+              <label>Email
+                <input id="profileEmail" type="email" value="alisha@example.com" required />
+              </label>
+
+              <label>Phone
+                <input id="profilePhone" type="tel" value="+92 300 1234567" />
+              </label>
+
+              <label>Bio
+                <textarea id="profileBio" rows="4">Experienced therapist specializing in mental health support and patient care.</textarea>
+              </label>
+
+              <div class="profile-actions">
+                <button type="submit" class="btn-primary">Save Changes</button>
+                <button type="button" class="btn-ghost" onclick="resetProfile()">Reset</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+    </main> 
+  </div> 
+
+  <script src="therapist.js"></script>
+</body>
+</html>
+
