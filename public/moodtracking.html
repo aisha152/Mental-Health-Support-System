@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Tracker - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #001f3f;
+      --card: rgba(255,255,255,0.12);
+      --accent: #00eeff;
+      --text: #e0f2ff;
+      --text-light: #88c8ff;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body {
+      background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text);
+      padding: 40px 20px;
+    }
+    .page-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+    .page-header h1 { font-size: 48px; color: white; font-weight: 700; margin-bottom: 12px; }
+    .page-header p { font-size: 19px; color: var(--text-light); opacity: 0.9; }
+
+    .mood-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card);
+      backdrop-filter: blur(25px);
+      border-radius: 32px;
+      padding: 50px;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.5);
+    }
+
+    .mood-select h3 {
+      font-size: 28px;
+      color: white;
+      text-align: center;
+      margin-bottom: 40px;
+      text-shadow: 0 0 20px rgba(0,238,255,0.4);
+    }
+    .emoji-row {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 50px 0;
+      flex-wrap: wrap;
+    }
+    .emoji {
+      font-size: 10px;
+      cursor: pointer;
+      padding: 20px;
+      border-radius: 50%;
+      transition: all 0.5s ease;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    }
+    .emoji:hover {
+      transform: translateY(-20px) scale(1.2);
+      box-shadow: 0 30px 60px rgba(0,238,255,0.4);
+    }
+    .emoji.selected {
+      background: var(--accent);
+      color: #001f3f;
+      transform: scale(1.3);
+      box-shadow: 0 0 60px rgba(0,238,255,0.7);
+      font-weight: bold;
+    }
+
+    .note-section {
+      margin-top: 40px;
+      text-align: center;
+    }
+    #moodNote {
+      width: 100%;
+      max-width: 700px;
+      height: 140px;
+      padding: 20px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 17px;
+      resize: none;
+      backdrop-filter: blur(10px);
+      margin-bottom: 25px;
+    }
+    #moodNote::placeholder { color: #88c8ff; opacity: 0.8; }
+
+    #saveMood {
+      padding: 18px 80px;
+      background: var(--accent);
+      color: #001f3f;
+      border: none;
+      border-radius: 50px;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 15px 40px rgba(0,238,255,0.4);
+      transition: 0.4s;
+    }
+    #saveMood:hover {
+      background: white;
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+    }
+
+    .history { margin-top: 60px; }
+    .history h3 {
+      font-size: 28px; color: white; text-align: center; margin-bottom: 30px;
+    }
+    #moodHistory {
+      list-style: none;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    #moodHistory li {
+      background: rgba(255,255,255,0.08);
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+      border-left: 5px solid var(--accent);
+      backdrop-filter: blur(10px);
+      transition: 0.4s;
+    }
+    #moodHistory li:hover {
+      transform: translateX(10px);
+      box-shadow: 0 15px 40px rgba(0,238,255,0.2);
+    }
+    .mood-date { font-size: 14px; color: #88c8ff; margin-bottom: 8px; }
+    .mood-note { font-size: 17px; line-height: 1.6; }
+
+    .quote-box {
+      margin-top: 60px;
+      text-align: center;
+      padding: 40px;
+      background: rgba(0,238,255,0.15);
+      border-radius: 28px;
+      border: 1px solid rgba(0,238,255,0.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .quote-box h3 { font-size: 26px; color: var(--accent); margin-bottom: 20px; }
+    #quote { font-size: 20px; color: #e0f2ff; font-style: italic; line-height: 1.7; }
+
+    .back-btn {
+      display: block;
+      margin: 50px auto 0;
+      padding: 18px 100px;
+      background: white;
+      color: #001f3f;
+      text-decoration: none;
+      font-size: 19px;
+      font-weight: bold;
+      border-radius: 60px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+      transition: 0.4s;
+      text-align: center;
+      width: fit-content;
+    }
+    .back-btn:hover {
+      transform: translateY(-12px) scale(1.07);
+      box-shadow: 0 40px 90px rgba(0,0,0,0.85);
+    }
+
+    @media (max-width: 768px) {
+      .mood-container { padding: 30px; margin: 20px; border-radius: 24px; }
+      .emoji { font-size: 60px; padding: 15px; }
+      .page-header h1 { font-size: 38px; }
+      #saveMood, .back-btn { padding: 16px 60px; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>Mood Tracker</h1>
+    <p>Track your emotions daily. You're doing amazing by showing up for yourself</p>
+  </div>
+
+  <main class="mood-container">
+
+    <section class="mood-select">
+      <h3>How are you feeling today?</h3>
+      <div class="emoji-row">
+        <span class="emoji" data-mood="1">Very Bad</span>
+        <span class="emoji" data-mood="2">Sad</span>
+        <span class="emoji" data-mood="3">Neutral</span>
+        <span class="emoji" data-mood="4">Happy</span>
+        <span class="emoji" data-mood="5">Joyful</span>
+      </div>
+
+      <section class="note-section">
+        <textarea id="moodNote" placeholder="What's on your mind today? (Optional)"></textarea>
+        <button id="saveMood">Save Today's Mood</button>
+      </section>
+    </section>
+
+    <section class="history">
+      <h3>Your Mood History</h3>
+      <ul id="moodHistory"></ul>
+    </section>
+
+    <section class="quote-box">
+      <h3>Daily Reminder</h3>
+      <p id="quote"></p>
+    </section>
+
+    <a href="dashboard.html" class="back-btn">Back to Dashboard</a>
+  </main>
+
+  <script>
+    const moodLabels = ["Very Bad", "Sad", "Neutral", "Happy", "Joyful"];
+    const quotes = [
+      "Every day may not be good, but there is something good in every day",
+      "You are stronger than you think",
+      "Healing is not linear — be patient with yourself",
+      "Your peace is more important than driving yourself crazy",
+      "It's okay to not be okay",
+      "You’ve survived 100% of your worst days. You're doing great",
+      "Small steps are still progress",
+      "Be proud of how far you've come"
+    ];
+
+    let selectedMood = null;
+
+    // Load mood history
+    function loadMoods() {
+      const savedMoods = JSON.parse(localStorage.getItem("mindwell_moods") || "[]");
+      const list = document.getElementById("moodHistory");
+      list.innerHTML = "";
+
+      savedMoods.slice(-10).reverse().forEach(entry => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <div class="mood-date">${new Date(entry.date).toLocaleDateString()} • ${entry.mood}</div>
+          ${entry.note ? `<div class="mood-note">"${entry.note}"</div>` : ""}
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    // Daily quote
+    document.getElementById("quote").textContent = quotes[new Date().getDate() % quotes.length];
+
+    // Emoji selection
+    document.querySelectorAll(".emoji").forEach(emoji => {
+      emoji.addEventListener("click", () => {
+        document.querySelectorAll(".emoji").forEach(e => e.classList.remove("selected"));
+        emoji.classList.add("selected");
+        selectedMood = emoji.getAttribute("data-mood");
+      });
+    });
+
+    // Save mood
+    document.getElementById("saveMood").addEventListener("click", () => {
+      if (!selectedMood) {
+        alert("Please select your mood first");
+        return;
+      }
+
+      const note = document.getElementById("moodNote").value.trim();
+      const moodText = moodLabels[selectedMood - 1];
+
+      // Get existing moods and add new one
+      let allMoods = JSON.parse(localStorage.getItem("mindwell_moods") || "[]");
+      allMoods.push({
+        date: new Date().toISOString(),
+        mood: moodText,
+        note: note || null
+      });
+
+      localStorage.setItem("mindwell_moods", JSON.stringify(allMoods));
+
+      alert("Mood saved successfully! Great job checking in");
+
+      // Reset form
+      document.querySelectorAll(".emoji").forEach(e => e.classList.remove("selected"));
+      document.getElementById("moodNote").value = "";
+      selectedMood = null;
+
+      // Reload history
+      loadMoods();
+    });
+
+    // Load everything on start
+    window.onload = () => {
+      loadMoods();
+    };
+  </script>
+</body>
+</html>

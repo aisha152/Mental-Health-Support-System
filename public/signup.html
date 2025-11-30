@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Brighter Days</title>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: #64f4c9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover { transform: translateX(-5px); }
+
+        .signin-box {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .signin-box h2 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .create-account {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .input-field, select {
+            width: 100%;
+            padding: 18px 20px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 15px;
+            background: #fdf2f8;
+            font-size: 17px;
+        }
+
+        .signin-btn-main {
+            background: #64f4c9;
+            color: #000;
+            font-weight: bold;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: 0.3s;
+        }
+
+        .signin-btn-main:hover {
+            background: #50e3b8;
+        }
+
+        .login-link a {
+            color: #008cba;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .msg {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="back-btn" onclick="window.history.back()">‹</div>
+
+    <div class="signin-box">
+        <h2>Sign Up</h2>
+        <p class="create-account">Create your new account</p>
+
+        <input type="text" id="name" class="input-field" placeholder="Enter your full name">
+        <input type="email" id="email" class="input-field" placeholder="Enter your email">
+        <input type="password" id="password" class="input-field" placeholder="Create password (min 6 chars)">
+
+        <select id="gender" class="input-field">
+            <option value="" disabled selected>Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+
+        <select id="role" class="input-field">
+            <option value="" disabled selected>Select Role</option>
+            <option>Patient</option>
+            <option>Therapist</option>
+        </select>
+
+        <button class="signin-btn-main" id="signupBtn">Create Account</button>
+
+        <p class="msg" id="msg"></p>
+
+        <p class="login-link">Already have an account?
+            <a href="login.html">Login here</a>
+        </p>
+    </div>
+
+    
+    <script>
+
+        document.getElementById("signupBtn").addEventListener("click", () => {
+
+            const msg = document.getElementById("msg");
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const gender = document.getElementById("gender").value;
+            const role = document.getElementById("role").value;
+
+            // Validate
+            if (!name || !email || !password || !gender || !role) {
+                msg.innerText = "Saari fields fill karo!";
+                msg.style.color = "red";
+                return;
+            }
+
+            if (password.length < 6) {
+                msg.innerText = "Password should be of 6 characters !";
+                msg.style.color = "red";
+                return;
+            }
+
+            // LocalStorage se puranay users lo
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            // Check duplicate email
+            const already = users.find(u => u.email === email);
+
+            if (already) {
+                msg.innerText = " email already registered !";
+                msg.style.color = "red";
+                return;
+            }
+
+            // New user object
+            const newUser = {
+                name,
+                email,
+                password,
+                gender,
+                role,
+                createdAt: new Date().toISOString()
+            };
+
+            // Save
+            users.push(newUser);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            msg.innerText = "Account successfully created!";
+            msg.style.color = "green";
+
+            // Redirect
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1500);
+        });
+// SIGNUP function
+async function signupUser(userData) {
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData)
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      // Redirect to dashboard
+      window.location.href = '/dashboard.html';
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    console.error('Signup error:', error);
+  }
+}
+
+// LOGIN function  
+async function loginUser(credentials) {
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials)
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      // Redirect to dashboard
+      window.location.href = '/dashboard.html';
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+  }
+}
+    </script>
+</body>
+</html>

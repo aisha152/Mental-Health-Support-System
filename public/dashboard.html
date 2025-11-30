@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard - Mind Well</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="home.css">
+
+
+</head>
+
+<body>
+  <header>
+    <h2>Brighter Days Dashboard</h2>
+    <div class="hamburger" id="hamburger">☰</div>
+  </header>
+<nav id="sidebar" class="sidebar">
+  
+  <!-- Sidebar Content -->
+  <div class="sidebar-content">
+    <div class="sidebar-header">
+      <h3>Mind Well</h3>
+     
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="active" data-section="home" onclick="selectMenu(this)">
+        Home
+      </li>
+      <li data-section="profile" onclick="selectMenu(this)">
+        Profile
+      </li>
+      <li data-section="mood" onclick="selectMenu(this)">
+        Mood Tracker
+      </li>
+      <li data-section="assessment" onclick="selectMenu(this)">
+        Assessment
+      </li>
+      <li data-section="chatbot" onclick="selectMenu(this)">
+        Chatbot
+      </li>
+      <li data-section="appointmentbtn" onclick="selectMenu(this)">
+        Book Appointment
+      </li>
+      <li data-section="courses" onclick="selectMenu(this)">
+        Courses
+      </li>
+      <li data-section="sounds" onclick="selectMenu(this)">
+        Sounds
+      </li>
+      <li data-section="article" onclick="selectMenu(this)">
+        Articles
+      </li>
+      <li data-section="goals" onclick="selectMenu(this)">
+        Daily Goals
+      </li>
+      <li data-section="support_messages" onclick="selectMenu(this)">
+        Support Group
+      </li>
+      <li data-section="crisis" onclick="selectMenu(this)">
+        Crisis Helplines
+      </li>
+      <li data-section="journal" onclick="selectMenu(this)">
+        Journal
+      </li>
+      <li data-section="breathing" onclick="selectMenu(this)">
+        Breathing Exercises
+      </li>
+      <li data-section="setting" onclick="selectMenu(this)">
+        Settings
+      </li>
+      <div class="sidebar-logout">
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
+    </ul>
+
+    <div class="sidebar-footer">
+      <p>Made with love for your peace</p>
+    </div>
+  </div>
+</nav>
+    
+</nav>
+
+     
+
+
+    
+<section id="home" class="content-section">
+  <iframe src="home.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="profile" class="content-section">
+  <iframe src="profile.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+
+<section id="mood" class="content-section">
+  <iframe src="moodtracking.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+
+<section id="courses" class="content-section">
+  <iframe src="courses.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="assessment" class="content-section">
+  <iframe src="assessment.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="appointmentbtn" class="content-section">
+  <iframe src="appointment.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="sounds" class="content-section">
+  <iframe src="sounds.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="article" class="content-section">
+  <iframe src="articles.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="goals" class="content-section">
+  <iframe src="goals.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+</section>
+<section id="support_messages" class="content-section">
+  <iframe src="support.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="crisis" class="content-section">
+  <iframe src="crisis.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="journal" class="content-section">
+  <iframe src="journal.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="setting" class="content-section">
+  <iframe src="settings.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="breathing" class="content-section">
+  <iframe src="breathing.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+<section id="chatbot" class="content-section">
+  <iframe src="chatbot.html" style="width:100%; height:800px; border:none;"></iframe>
+  
+</section>
+
+<section id="sounds" class="content-section">
+ <audio id="dayAudio"></audio>
+</section>
+
+
+
+
+
+    
+
+   
+  </main>
+
+  <script src="script.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="chatbot.js"></script>
+  <script src="articles.js"></script>
+  <script src="home.js" defer></script>
+
+</body>
+</html>

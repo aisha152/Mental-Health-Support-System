@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Breathing Exercises - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:#001f3f ;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+    .header h2 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+    .header p { font-size: 18px; opacity: 0.9; }
+
+    .exercises {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+    .exercise-card {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.4s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .exercise-card:hover { transform: translateY(-12px); background: rgba(255,255,255,0.25); }
+    .exercise-card i { font-size: 50px; margin-bottom: 20px; }
+    .exercise-card h3 { font-size: 22px; margin-bottom: 10px; }
+
+    /* Full Screen Exercise Mode */
+    .exercise-mode {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .breathing-circle {
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      margin: 40px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: bold;
+      transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .timer { font-size: 28px; margin: 20px 0; }
+    .close-exercise {
+      position: absolute;
+      top: 20px; right: 25px;
+      font-size: 40px;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    
+    /* FIXED + CENTERED BACK TO DASHBOARD BUTTON - PREMIUM STYLE */
+.bottom-bar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
+  width: 100%;
+  text-align: center;
+}
+
+.back-btn {
+  display: inline-block;
+  background: white;
+  color: #001f3f;
+  padding: 18px 80px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 19px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.35s ease;
+  pointer-events: all;
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+.back-btn:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: #f8f9fa;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+}
+
+.back-btn:active {
+  transform: translateY(-4px);
+}
+
+/* Premium floating animation */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Body ke neeche padding taaki content button ke upar na aaye */
+body {
+  padding-bottom: 160px !important;
+}
+
+/* Mobile pe bhi perfect */
+@media (max-width: 480px) {
+  .back-btn {
+    padding: 16px 60px;
+    font-size: 18px;
+  }
+  .bottom-bar { bottom: 20px; }
+}
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>Breathing & Relaxation</h2>
+    <p>Choose an exercise and follow the circle</p>
+  </div>
+
+  <div class="exercises">
+    <div class="exercise-card" onclick="startExercise('4-7-8 Breathing', 4, 7, 8, 4)">
+      <h3>4-7-8 Breathing</h3>
+      <p>Best for anxiety & sleep</p>
+    </div>
+    <div class="exercise-card" onclick="startExercise('Box Breathing', 4, 4, 4, 4)">
+      <h3>Box Breathing</h3>
+      <p>Used by Navy SEALs</p>
+    </div>
+    <div class="exercise-card" onclick="startExercise('Deep Calm', 5, 0, 7, 2)">
+      <h3>Deep Calm</h3>
+      <p>Quick relaxation</p>
+    </div>
+    <div class="exercise-card" onclick="startExercise('Resonant', 5, 0, 5, 0)">
+      <h3>Resonant Breathing</h3>
+      <p>Optimal heart rate</p>
+    </div>
+    <div class="exercise-card" onclick="startExercise('Quick Reset', 3, 0, 4, 1)">
+      <h3>Quick Reset</h3>
+      <p>30 seconds calm</p>
+    </div>
+    <div class="exercise-card" onclick="startExercise('Alternate Nostril', 4, 4, 4, 4)">
+      <h3>Alternate Nostril Prep</h3>
+      <p>Yoga style</p>
+    </div>
+  </div>
+
+  <!-- Full Screen Exercise -->
+  <div class="exercise-mode" id="exerciseMode">
+    <span class="close-exercise" onclick="stopExercise()">×</span>
+    <h2 id="exerciseTitle">4-7-8 Breathing</h2>
+    <div class="breathing-circle" id="circle">Get Ready...</div>
+    <div class="timer" id="timer">3:00</div>
+    <p id="instruction">Place one hand on your belly</p>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar">
+    <div></div>
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      Back to Dashboard
+    </button>
+    <div></div>
+  </div>
+
+  <audio id="beep" src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3"></audio>
+
+  <script>
+    let timerInterval, breatheInterval;
+    const beep = document.getElementById("beep");
+
+    function startExercise(title, inhale, hold, exhale, hold2) {
+      document.getElementById("exerciseMode").style.display = "flex";
+      document.getElementById("exerciseTitle").textContent = title;
+
+      let totalTime = 180; // 3 minutes
+      let timeLeft = totalTime;
+      const circle = document.getElementById("circle");
+      const instruction = document.getElementById("instruction");
+
+      // Timer
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        const mins = Math.floor(timeLeft/60).toString().padStart(2,'0');
+        const secs = (timeLeft%60).toString().padStart(2,'0');
+        document.getElementById("timer").textContent = `${mins}:${secs}`;
+        if (timeLeft <= 0) stopExercise();
+      }, 1000);
+
+      // Breathing cycle
+      let phase = 0;
+      clearInterval(breatheInterval);
+      breatheInterval = setInterval(() => {
+        if (phase === 0) {
+          circle.style.transform = "scale(1.3)";
+          circle.textContent = "Inhale";
+          instruction.textContent = `Breathe in for ${inhale} seconds`;
+          beep.play();
+          setTimeout(() => phase = 1, inhale * 1000);
+        } else if (phase === 1 && hold > 0) {
+          circle.style.transform = "scale(1.3)";
+          circle.textContent = "Hold";
+          instruction.textContent = `Hold for ${hold} seconds`;
+          setTimeout(() => phase = 2, hold * 1000);
+        } else if (phase === (hold > 0 ? 2 : 1)) {
+          circle.style.transform = "scale(0.9)";
+          circle.textContent = "Exhale";
+          instruction.textContent = `Breathe out for ${exhale} seconds`;
+          beep.play();
+          setTimeout(() => phase = 3, exhale * 1000);
+        } else if (phase === 3 && hold2 > 0) {
+          circle.style.transform = "scale(0.9)";
+          circle.textContent = "Hold";
+          instruction.textContent = `Hold empty for ${hold2} seconds`;
+          setTimeout(() => phase = 0, hold2 * 1000);
+        } else {
+          phase = 0;
+        }
+      }, 100);
+    }
+
+    function stopExercise() {
+      clearInterval(timerInterval);
+      clearInterval(breatheInterval);
+      document.getElementById("exerciseMode").style.display = "none";
+      document.getElementById("circle").style.transform = "scale(1)";
+    }
+
+    // Close with Escape key
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") stopExercise();
+    });
+  </script>
+</body>
+</html>

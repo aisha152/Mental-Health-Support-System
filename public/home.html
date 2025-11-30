@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mind Well • Your Peace Starts Here</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #001f3f;
+      --card: rgba(255,255,255,0.08);
+      --accent: #00eeff;
+      --text: #e0f7ff;
+      --text-light: #94d4ff;
+      --glow: 0 0 60px rgba(0,238,255,0.5);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #001122 0%, #001f3f 50%, #002b55 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section - Cinematic */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 0 20px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0,238,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulse 8s infinite alternate;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 0.8; }
+    }
+
+    .hero-content h1 {
+      font-size: 72px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00eeff, #0099ff, #00eeff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200%;
+      animation: gradient 6s ease infinite, float 6s ease-in-out infinite;
+      margin-bottom: 24px;
+      letter-spacing: -2px;
+    }
+    @keyframes gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+    .hero-content p {
+      font-size: 24px;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      color: var(--text-light);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .cta-btn {
+      padding: 20px 60px;
+      background: linear-gradient(45deg, #00eeff, #0099ff);
+      color: #001f3f;
+      font-size: 20px;
+      font-weight: 700;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 20px 60px rgba(0,238,255,0.4);
+      transition: all 0.6s;
+      animation: bounce 3s infinite;
+    }
+    .cta-btn:hover {
+      transform: translateY(-15px) scale(1.1);
+      box-shadow: 0 40px 100px rgba(0,238,255,0.7);
+    }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    /* Features Grid */
+    .features {
+      padding: 120px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 80px;
+      color: white;
+      font-weight: 700;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(30px);
+      border-radius: 32px;
+      padding: 50px 35px;
+      text-align: center;
+      border: 1px solid rgba(0,238,255,0.2);
+      box-shadow: var(--glow), inset 0 0 40px rgba(0,238,255,0.05);
+      transition: all 0.8s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, #00eeff, transparent);
+      animation: rotate 20s linear infinite;
+      opacity: 0;
+      transition: opacity 0.8s;
+    }
+    .feature-card:hover::before { opacity: 0.15; }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    .feature-card:hover {
+      transform: translateY(-30px) scale(1.05);
+      box-shadow: 0 50px 120px rgba(0,0,0,0.7), 0 0 120px rgba(0,238,255,0.6);
+      border-color: var(--accent);
+    }
+    .feature-card i {
+      font-size: 70px;
+      background: linear-gradient(45deg, #00eeff, #00b8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 30px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 28px;
+      margin-bottom: 16px;
+      color: white;
+    }
+    .feature-card p {
+      font-size: 17px;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* Stats Counter */
+    .stats-section {
+      padding: 100px 20px;
+      background: rgba(0,238,255,0.08);
+      margin: 100px 0;
+      border-radius: 40px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+    .stat-item h2 {
+      font-size: 60px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-shadow: var(--glow);
+    }
+    .stat-item p {
+      font-size: 20px;
+      color: var(--text-light);
+    }
+
+    /* Final CTA */
+    .final-cta {
+      text-align: center;
+      padding: 120px 20px;
+    }
+    .final-cta h2 {
+      font-size: 52px;
+      margin-bottom: 30px;
+      color: white;
+    }
+    .final-cta p {
+      font-size: 22px;
+      max-width: 800px;
+      margin: 0 auto 50px;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: 48px; }
+      .hero-content p { font-size: 19px; }
+      .section-title { font-size: 38px; }
+      .feature-card { padding: 40px 25px; }
+      .cta-btn { padding: 18px 50px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Your Peace <br>Starts Here</h1>
+      <p>Professional therapy tools • Daily mood tracking • Guided breathing • Private journal • All in one beautiful place</p>
+      <button class="cta-btn" onclick="window.location.href='dashboard.html'">
+        Begin Your Journey
+      </button>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <h2 class="section-title">Everything You Need</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <i class="fas fa-brain"></i>
+        <h3>Clinical Assessments</h3>
+        <p>PHQ-9, GAD-7 based professional mental health check-ins</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-heartbeat"></i>
+        <h3>Smart Mood Tracker</h3>
+        <p>Track emotions daily with beautiful insights & patterns</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-wind"></i>
+        <h3>Guided Breathing</h3>
+        <p>Box breathing, 4-7-8, calming exercises when you need them</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-book-open"></i>
+        <h3>Private Journal</h3>
+        <p>Write freely — encrypted, safe, and always yours</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-headset"></i>
+        <h3>24/7 Crisis Support</h3>
+        <p>Instant helplines & emergency resources in one tap</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>100% Private & Secure</h3>
+        <p>Your data never leaves your device. Promise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h2 class="counter">50000</h2>
+        <p>Happy Users</p>
+      </div>
+      <div class="stat-item">
+        <h2 class="counter">1.2</h2>
+        <p>Million Moods Tracked</p>
+      </div>
+      <div class="stat-item">
+        <h2 class="counter">4.9</h2>
+        <p>App Rating</p>
+      </div>
+      <div class="stat-item">
+        <h2 class="counter">100</h2>
+        <p>% Ad-Free Forever</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Ready to Feel Better?</h2>
+    <p>Join thousands who wake up calmer, stronger, and more in control — every single day</p>
+    <button class="cta-btn" onclick="window.location.href='dashboard.html'">
+      Start Free Now
+    </button>
+  </section>
+
+  <script>
+    // Counter Animation
+    document.querySelectorAll('.counter').forEach(counter => {
+      const target = parseInt(counter.textContent.replace(/\D/g,''));
+      const duration = 3000;
+      const step = target / (duration / 16);
+      let current = 0;
+      
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          counter.textContent = target.toLocaleString() + (counter.textContent.match(/[\D]+$/)?.[0] || '');
+          clearInterval(timer);
+        } else {
+          counter.textContent = Math.floor(current).toLocaleString() + '+';
+        }
+      }, 16);
+    });
+  </script>
+</body>
+</html>

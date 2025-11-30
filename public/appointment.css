@@ -1,0 +1,80 @@
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Segoe UI', sans-serif; }
+
+body {
+  background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+  color: #e0f2ff;
+  padding-bottom: 180px;
+}
+
+.header-area { text-align: center; padding: 90px 20px 40px; }
+.header-area h2 { font-size: 44px; font-weight: 700; color: white; }
+.header-area p { font-size: 19px; color: #88c8ff; opacity: 0.9; margin-top: 10px; }
+
+.therapist-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 35px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.therapist-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(22px);
+  border-radius: 32px;
+  padding: 40px 30px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.45);
+  transition: all 0.6s ease;
+}
+.therapist-card:hover {
+  transform: translateY(-22px);
+  background: rgba(255,255,255,0.18);
+  border-color: #00eeff;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.6);
+}
+
+.therapist-card img {
+  width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+  border: 5px solid #00eeff; margin-bottom: 20px;
+  box-shadow: 0 0 40px rgba(0,238,255,0.6);
+}
+.therapist-card h3 { font-size: 26px; color: white; font-weight: 700; margin-bottom: 8px; }
+.therapist-card p.bio { font-size: 16px; color: #88c8ff; margin-bottom: 25px; line-height: 1.6; }
+
+.time-slots { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.slot-card {
+  padding: 14px 26px; background: rgba(0,238,255,0.22); color: white;
+  border: 1px solid rgba(0,238,255,0.4); border-radius: 50px; font-weight: 600;
+  font-size: 15px; cursor: pointer; min-width: 120px; transition: 0.4s;
+}
+.slot-card:hover { background: #00eeff; color: #001f3f; transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 12px 35px rgba(0,238,255,0.5); }
+.slot-card.booked { background: rgba(255,107,107,0.3); color: #ff6b6b; border-color: #ff6b6b; cursor: not-allowed; }
+
+/* Perfect Center Fixed Back Button */
+.fixed-back-center {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 140px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 99999; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,31,63,0.95), transparent);
+}
+.back-btn {
+  pointer-events: all; background: white; color: #001f3f;
+  font-size: 19px; font-weight: bold; padding: 18px 100px;
+  border-radius: 60px; border: none; cursor: pointer;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7); transition: 0.4s;
+  animation: float 6s ease-in-out infinite;
+}
+.back-btn:hover { transform: translateY(-12px) scale(1.07); box-shadow: 0 40px 90px rgba(0,0,0,0.85); }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+
+@media (max-width: 768px) {
+  .therapist-list { grid-template-columns: 1fr; padding: 0 15px; }
+  .back-btn { padding: 16px 70px; font-size: 18px; }
+  .fixed-back-center { height: 120px; }
+}

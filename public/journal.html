@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Journal - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    
+    body{
+      background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+      min-height:100vh;
+      font-family:'Segoe UI',sans-serif;
+      color: #e0f2ff;
+      padding-bottom:160px;
+      background-attachment: fixed;
+    }
+
+    .header{
+      text-align:center;
+      padding:60px 20px 30px;
+    }
+    .header h2{
+      font-size:38px;
+      color: white;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+    .header p{
+      font-size:18px;
+      color: #88c8ff;
+      opacity:0.9;
+    }
+
+    .journal-container{
+      max-width:800px;
+      margin:0 auto;
+      padding:20px;
+    }
+
+    /* New Entry Card - Dark Glass */
+    .new-entry{
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      border-radius:24px;
+      padding:28px;
+      margin-bottom:30px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    textarea{
+      width:100%;
+      height:180px;
+      background: rgba(0,50,100,0.6);
+      border: 2px solid rgba(0,212,255,0.3);
+      border-radius:18px;
+      padding:18px;
+      font-size:17px;
+      color: white;
+      resize:none;
+      margin-bottom:18px;
+    }
+    textarea::placeholder{
+      color: #88c8ff;
+      opacity: 0.8;
+    }
+
+    .mood-selector{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+    .mood-btn{
+      font-size:10px;
+      cursor:pointer;
+      padding:10px;
+      border-radius:50%;
+      transition:0.4s;
+      background: rgba(255,255,255,0.1);
+    }
+    .mood-btn:hover{
+      transform:scale(1.35);
+      background: rgba(0,212,255,0.3);
+    }
+    .mood-btn.selected{
+      background: rgba(0,212,255,0.4);
+      transform:scale(1.2);
+      box-shadow: 0 0 20px rgba(0,212,255,0.5);
+    }
+
+    .save-btn{
+      background:#00d4ff;
+      color:#001f3f;
+      border:none;
+      padding:16px 40px;
+      border-radius:50px;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+      float:right;
+      box-shadow: 0 8px 25px rgba(0,212,255,0.4);
+      transition:0.3s;
+    }
+    .save-btn:hover{
+      background:#00eeff;
+      transform:translateY(-4px);
+    }
+
+    /* Entries */
+    .entries{margin-top:40px;}
+    .entry{
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(15px);
+      border-radius:22px;
+      padding:25px;
+      margin-bottom:22px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.1);
+      position:relative;
+    }
+    .entry-date{
+      font-weight:bold;
+      color:#00eeff;
+      margin-bottom:10px;
+      font-size:19px;
+    }
+    .entry-mood{font-size:30px;margin-right:12px;}
+    .entry-text{
+      margin:15px 0;
+      line-height:1.8;
+      color:#e0f2ff;
+      font-size:16px;
+    }
+    .delete-btn{
+      position:absolute;
+      top:18px;right:18px;
+      background:#ff6b6b;
+      color:white;
+      border:none;
+      width:40px;height:40px;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:20px;
+      transition:0.3s;
+    }
+    .delete-btn:hover{
+      background:#ff5252;
+      transform:scale(1.15);
+    }
+
+    /* FIXED BOTTOM BUTTON - SAME AS OTHER PAGES */
+    .bottom-bar{
+      position:fixed;
+      bottom:30px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:9999;
+      pointer-events:none;
+      width:100%;
+      text-align:center;
+    }
+    .back-btn{
+      display:inline-block;
+      background:white;
+      color:#001f3f;
+      padding:18px 80px;
+      border-radius:50px;
+      font-weight:bold;
+      font-size:19px;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 15px 40px rgba(0,0,0,0.5);
+      transition:all 0.35s ease;
+      pointer-events:all;
+      animation:gentleFloat 6s ease-in-out infinite;
+    }
+    .back-btn:hover{
+      transform:translateY(-8px) scale(1.05);
+      background:#f8f9fa;
+      box-shadow:0 25px 60px rgba(0,0,0,0.6);
+    }
+    @keyframes gentleFloat{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-10px);}
+    }
+
+    @media(max-width:768px){
+      .header h2{font-size:32px;}
+      textarea{height:160px;}
+      .back-btn{padding:16px 60px;font-size:18px;}
+      .bottom-bar{bottom:20px;}
+    }
+  </style>
+</head>
+<body onload="loadEntries()">
+
+  
+
+  <div class="header">
+    <h2>My Private Journal</h2>
+    <p>Write anything · No one will see · It’s 100% safe</p>
+  </div>
+
+  <div class="journal-container">
+
+    <div class="new-entry">
+      <textarea id="journalText" placeholder="How are you feeling today? What’s on your mind?"></textarea>
+
+      <div class="mood-selector">
+        <span class="mood-btn" data-mood="happy">Happy</span>
+        <span class="mood-btn" data-mood="calm">Calm</span>
+        <span class="mood-btn" data-mood="sad">Sad</span>
+        <span class="mood-btn" data-mood="angry">Angry</span>
+        <span class="mood-btn" data-mood="anxious">Anxious</span>
+        <span class="mood-btn" data-mood="grateful">Grateful</span>
+        <span class="mood-btn" data-mood="love">Love</span>
+        <span class="mood-btn" data-mood="tired">Tired</span>
+      </div>
+
+      <button class="save-btn" onclick="saveEntry()">Save Entry</button>
+      <div style="clear:both;"></div>
+    </div>
+
+    <div class="entries" id="entriesList"></div>
+  </div>
+
+  <!-- Fixed Back Button -->
+  <div class="bottom-bar">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      Back to Dashboard
+    </button>
+  </div>
+
+  <script>
+    let selectedMood = "neutral";
+
+    document.querySelectorAll(".mood-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedMood = btn.getAttribute("data-mood");
+      });
+    });
+
+   function loadEntries() {
+  const entries = JSON.parse(localStorage.getItem("journal_entries") || "[]");
+  const list = document.getElementById("entriesList");
+  list.innerHTML = "";
+
+  entries.reverse().forEach((entry, reversedIndex) => {
+    const originalIndex = entries.length - 1 - reversedIndex;
+
+    const div = document.createElement("div");
+    div.className = "entry";
+
+    div.innerHTML = `
+      <div class="entry-date">
+        <span class="entry-mood">${entry.mood}</span>
+        ${entry.date}
+      </div>
+      <div class="entry-text">${entry.text.replace(/\n/g, "<br>")}</div>
+    `;
+
+    // Button alag se banate hain → no quote problem
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-btn";
+    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    deleteBtn.onclick = () => deleteEntry(originalIndex);
+
+    div.appendChild(deleteBtn);
+    list.appendChild(div);
+  });
+}
+
+    function saveEntry() {
+      const text = document.getElementById("journalText").value.trim();
+      if (!text) return alert("Please write something first");
+
+      const entries = JSON.parse(localStorage.getItem("journal_entries") || "[]");
+      const today = new Date().toLocaleDateString("en-IN", { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+      entries.push({
+        text: text,
+        mood: selectedMood,
+        date: today + " · " + new Date().toLocaleTimeString("en-IN", {hour: '2-digit', minute: '2-digit'})
+      });
+
+      localStorage.setItem("journal_entries", JSON.stringify(entries));
+      document.getElementById("journalText").value = "";
+      document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
+      selectedMood = "neutral";
+      loadEntries();
+    }
+
+    function deleteEntry(index) {
+      if(confirm("Delete this entry permanently?")){
+        const entries = JSON.parse(localStorage.getItem("journal_entries") || "[]");
+        entries.splice(index, 1);
+        localStorage.setItem("journal_entries", JSON.stringify(entries));
+        loadEntries();
+      }
+    }
+  </script>
+</body>
+</html>

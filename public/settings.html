@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      background: #001f3f;
+      min-height:100vh;
+      font-family:'Segoe UI',sans-serif;
+      color:white;
+      padding-bottom:140px;
+    }
+    .header{text-align:center;padding:50px 20px 10px;}
+    .header h2{font-size:40px;margin-bottom:8px;}
+    .header p{font-size:18px;opacity:0.9;}
+
+    .settings{max-width:750px;margin:0 auto;padding:20px;}
+    .section-title{
+      font-size:22px;
+      margin:30px 0 15px;
+      padding-left:10px;
+      color:white;
+      font-weight:600;
+    }
+    .setting-item{
+      background:rgba(255,255,255,0.12);
+      backdrop-filter:blur(15px);
+      border-radius:18px;
+      padding:18px 22px;
+      margin-bottom:15px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border:1px solid rgba(255,255,255,0.1);
+      transition:0.3s;
+    }
+    .setting-item:hover{transform:translateX(8px);}
+    .setting-item i{font-size:26px;width:50px;text-align:center;}
+    .setting-text h3{font-size:18px;margin-bottom:4px;}
+    .setting-text p{font-size:14px;opacity:0.8;}
+
+    .toggle{
+      position:relative;width:62px;height:36px;background:#555;border-radius:36px;cursor:pointer;transition:0.4s;
+    }
+    .toggle.active{background:#001f3f;}
+    .toggle::after{
+      content:'';position:absolute;width:28px;height:28px;background:white;border-radius:50%;
+      top:4px;left:4px;transition:0.4s;
+    }
+    .toggle.active::after{transform:translateX(26px);}
+
+    .danger-btn{background:#e17055;color:white;border:none;padding:18px;width:40%;border-radius:18px;font-size:18px;font-weight:600;cursor:pointer;margin-top:40px;}
+    .success-btn{background:white;color:#001f3f;border:none;padding:16px;width:40%;border-radius:18px;font-size:17px;margin-top:15px;cursor:pointer;}
+
+    
+   /* FIXED BACK TO DASHBOARD BUTTON - BILKUL NEECHE */
+/* FIXED + CENTERED BACK TO DASHBOARD BUTTON */
+.bottom-bar {
+  position: fixed;
+  bottom: 30px;            /* neeche se thoda upar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
+  width: 100%;
+  text-align: center;
+}
+
+.back-btn {
+  display: inline-block;
+  background: white;
+  color: #001f3f;
+  padding: 18px 70px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 19px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  transition: all 0.35s ease;
+  pointer-events: all;                /* taaki click ho sake */
+  animation: float 6s ease-in-out infinite;
+}
+
+.back-btn:hover {
+  transform: translateY(-6px) scale(1.05);
+  background: #f5f5f5;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.back-btn:active {
+  transform: translateY(-2px);
+}
+
+/* Thoda sa floating animation (premium feel) */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Body ke neeche padding taaki content button ke upar na aaye */
+body {
+  padding-bottom: 150px !important;   /* button ke liye safe space */
+}
+
+/* Mobile pe bhi perfect lagega */
+@media (max-width: 480px) {
+  .back-btn {
+    padding: 16px 50px;
+    font-size: 18px;
+  }
+  .bottom-bar {
+    bottom: 20px;
+  }
+}
+
+
+
+
+  </style>
+</head>
+<body>
+
+  <div class="header"
+    <h2>Settings</h2>
+    <p>All controls in one place</p>
+  </div>
+
+  <div class="settings">
+
+    <!-- PERSONAL -->
+    <div class="section-title">Personal</div>
+    <div class="setting-item" onclick="changeName()">
+      <div><i class="fas fa-user"></i></div>
+      <div class="setting-text"><h3>Your Name</h3><p id="displayName">Guest</p></div>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+
+    <!-- NOTIFICATIONS & REMINDERS -->
+    <div class="section-title">Reminders</div>
+    <div class="setting-item">
+      <div><i class="fas fa-bell"></i></div>
+      <div class="setting-text"><h3>Daily Journal Reminder</h3><p>8:00 PM</p></div>
+      <div class="toggle active" id="journalRemind" onclick="toggle(this,'journal_remind')"></div>
+    </div>
+    <div class="setting-item">
+      <div><i class="fas fa-glass-whiskey"></i></div>
+      <div class="setting-text"><h3>Water Reminder</h3><p>Every 2 hours</p></div>
+      <div class="toggle" id="waterRemind" onclick="toggle(this,'water_remind')"></div>
+    </div>
+    <div class="setting-item">
+      <div><i class="fas fa-bed"></i></div>
+      <div class="setting-text"><h3>Sleep Reminder</h3><p>10:30 PM</p></div>
+      <div class="toggle active" id="sleepRemind" onclick="toggle(this,'sleep_remind')"></div>
+    </div>
+
+    <!-- APPEARANCE -->
+    <div class="section-title">Appearance</div>
+    <div class="setting-item">
+      <div><i class="fas fa-moon"></i></div>
+      <div class="setting-text"><h3>Dark Mode</h3><p>Coming soon</p></div>
+      <div class="toggle"></div>
+    </div>
+    <div class="setting-item" onclick="changeTheme()">
+      <div><i class="fas fa-palette"></i></div>
+      <div class="setting-text"><h3>Theme Color</h3><p id="currentTheme">Default Green</p></div>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+
+    <!-- SOUND & VOLUME -->
+    <div class="section-title">Sound</div>
+    <div class="setting-item">
+      <div><i class="fas fa-volume-up"></i></div>
+      <div class="setting-text"><h3>Master Volume</h3><p id="volText">70%</p></div>
+      <input type="range" min="0" max="100" value="70" style="width:130px;" onchange="setVol(this.value)">
+    </div>
+    <div class="setting-item">
+      <div><i class="fas fa-headphones"></i></div>
+      <div class="setting-text"><h3>Breathing Exercise Sound</h3><p>Beep tone</p></div>
+      <div class="toggle active" id="beepSound" onclick="toggle(this,'beep_sound')"></div>
+    </div>
+
+    <!-- PRIVACY & SECURITY -->
+    <div class="section-title">Privacy & Security</div>
+    <div class="setting-item" onclick="setPin()">
+      <div><i class="fas fa-lock"></i></div>
+      <div class="setting-text"><h3>App Lock (PIN)</h3><p id="pinStatus">Not set</p></div>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+    <div class="setting-item">
+      <div><i class="fas fa-eye-slash"></i></div>
+      <div class="setting-text"><h3>Hide Journal from Recent Apps</h3><p>Android only</p></div>
+      <div class="toggle" onclick="toggle(this,'hide_app')"></div>
+    </div>
+
+    <!-- DATA & BACKUP -->
+    <div class="section-title">Data</div>
+    <div class="setting-item" onclick="exportData()">
+      <div><i class="fas fa-download"></i></div>
+      <div class="setting-text"><h3>Export All Data</h3><p>Journal, goals, moods as TXT</p></div>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+    <button class="danger-btn" onclick="clearAll()">Clear All Data Permanently</button>
+    <button class="success-btn" onclick="location.reload()">Refresh App</button>
+
+    <div style="text-align:center;margin-top:50px;opacity:0.7;font-size:15px;">
+      <p>Mind Well v2.0 • Made with ❤️ for your peace</p>
+      <p>Total Users Helped: <b>1,234+</b></p>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      Back to Dashboard
+    </button>
+  </div>
+
+  <script>
+    // Load saved settings
+    const name = localStorage.getItem("user_name") || "Guest";
+    document.getElementById("displayName").textContent = name;
+
+    ["journal_remind","water_remind","sleep_remind","beep_sound"].forEach(key => {
+      if(localStorage.getItem(key)==="false") document.getElementById(key.replace("_","")).classList.remove("active");
+    });
+
+    // Functions
+    function toggle(el,key){ el.classList.toggle("active"); localStorage.setItem(key,el.classList.contains("active")); }
+    function changeName(){ let n=prompt("Enter your name:",name); if(n){ localStorage.setItem("user_name",n); document.getElementById("displayName").textContent=n; } }
+    function setVol(v){ document.getElementById("volText").textContent=v+"%"; localStorage.setItem("app_volume",v); }
+    function setPin(){ let p=prompt("Set 4-digit PIN:"); if(p && p.length===4){ localStorage.setItem("app_pin",p); document.getElementById("pinStatus").textContent="Set"; } }
+    function changeTheme(){ alert("Premium themes coming soon!"); }
+    function exportData(){
+      let data = "=== MIND WELL EXPORT ===\n\n";
+      data += "Journal Entries: "+(JSON.parse(localStorage.getItem("journal_entries")||"[]")).length+"\n";
+      data += "Goals Completed: "+(JSON.parse(localStorage.getItem("daily_goals")||"[]").filter(g=>g.done).length)+"\n\n";
+      const blob = new Blob([data], {type:"text/plain"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href=url; a.download="mindwell_backup.txt"; a.click();
+    }
+    function clearAll(){
+      if(confirm("⚠️ Delete EVERYTHING permanently?")){ localStorage.clear(); alert("All cleared!"); location.reload(); }
+    }
+  </script>
+</body>
+</html>

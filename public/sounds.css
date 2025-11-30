@@ -1,0 +1,250 @@
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body {
+  background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: #e0f2ff;
+  background-attachment: fixed;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 60px 20px 40px;
+  position: relative;
+}
+
+.header h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.header p {
+  font-size: 19px;
+  color: #88c8ff;
+  opacity: 0.9;
+}
+
+/* Sounds Grid */
+.sounds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 180px;
+}
+
+.sound-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
+  padding: 38px 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.sound-card:hover {
+  transform: translateY(-16px) scale(1.04);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.sound-card.playing {
+  background: rgba(0, 238, 255, 0.25) !important;
+  border: 2px solid #00eeff !important;
+  box-shadow: 0 0 45px rgba(0, 238, 255, 0.7) !important;
+  transform: scale(1.06) !important;
+}
+
+.sound-card i {
+  font-size: 64px;
+  margin-bottom: 22px;
+  color: #00eeff;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 0 15px rgba(0, 238, 255, 0.5));
+}
+
+.sound-card:hover i {
+  transform: scale(1.25) rotate(8deg);
+  filter: drop-shadow(0 0 30px #00eeff);
+}
+
+.sound-card h3 {
+  font-size: 23px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: 600;
+}
+
+.sound-card p {
+  font-size: 16px;
+  color: #88c8ff;
+  opacity: 0.85;
+}
+
+/* Now Playing Bar - Premium Floating */
+.now-playing {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 850px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  border-radius: 32px;
+  padding: 22px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 998;
+  animation: slideUp 0.7s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translate(-50%, 120px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translate(-50%, 0); 
+    opacity: 1; 
+  }
+}
+
+.np-info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 19px;
+  font-weight: 600;
+  color: white;
+}
+
+.np-info i {
+  color: #00eeff;
+  font-size: 24px;
+}
+
+.np-controls button {
+  background: rgba(0, 238, 255, 0.2);
+  color: white;
+  border: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 22px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.np-controls button:hover {
+  background: #00eeff;
+  color: #001f3f;
+  transform: scale(1.18);
+  box-shadow: 0 10px 30px rgba(0, 238, 255, 0.6);
+}
+
+#playPauseBtn {
+  width: 64px;
+  height: 64px;
+  font-size: 28px;
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #88c8ff;
+}
+
+#volumeSlider {
+  width: 130px;
+  height: 6px;
+  accent-color: #00eeff;
+  border-radius: 10px;
+}
+
+/* FIXED BACK TO DASHBOARD BUTTON - SAME AS ALL PAGES */
+.bottom-bar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: none;
+  width: 100%;
+  text-align: center;
+}
+
+.back-btn {
+  display: inline-block;
+  background: white;
+  color: #001f3f;
+  padding: 18px 80px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 19px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.35s ease;
+  pointer-events: all;
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+.back-btn:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .header h2 { font-size: 34px; }
+  .header p { font-size: 17px; }
+  .sounds-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px; 
+    padding: 0 15px 160px; 
+  }
+  .sound-card { padding: 28px 18px; }
+  .sound-card i { font-size: 52px; }
+  .now-playing {
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+    bottom: 110px;
+    width: 90%;
+  }
+  .back-btn {
+    padding: 16px 60px;
+    font-size: 18px;
+  }
+  .bottom-bar { bottom: 20px; }
+}
+
+@media (max-width: 480px) {
+  .sounds-grid { grid-template-columns: 1fr 1fr; }
+  .sound-card h3 { font-size: 19px; }
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support Group - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e0f2ff;
+      padding-bottom: 160px;
+      background-attachment: fixed;
+    }
+
+    .header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+    .header h2 {
+      font-size: 38px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: white;
+    }
+    .header p {
+      font-size: 18px;
+      opacity: 0.9;
+      color: #88c8ff;
+    }
+
+    .chat-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .messages {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 22px;
+      height: 65vh;
+      overflow-y: auto;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .message {
+      margin-bottom: 20px;
+      padding: 14px 20px;
+      border-radius: 20px;
+      max-width: 78%;
+      word-wrap: break-word;
+      position: relative;
+    }
+    .message.own {
+      background: linear-gradient(135deg, #00d4ff, #00b8ff);
+      color: #001f3f;
+      margin-left: auto;
+      border-bottom-right-radius: 6px;
+      font-weight: 600;
+    }
+    .message.other {
+      background: rgba(255,255,255,0.18);
+      margin-right: auto;
+      border-bottom-left-radius: 6px;
+      color: white;
+    }
+    .message .name {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      opacity: 0.9;
+    }
+    .message .time {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    /* Input Area – Glassmorphism */
+    .input-area {
+      display: flex;
+      gap: 14px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      padding: 16px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(0,212,255,0.3);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .input-area input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 17px;
+    }
+    .input-area input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+    .send-btn {
+    
+      color: #001f3f;
+      border: none;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(0,212,255,0.4);
+    }
+    .send-btn:hover {
+      transform: scale(1.12);
+      box-shadow: 0 10px 30px rgba(0,212,255,0.6);
+    }
+
+    /* FIXED BOTTOM BUTTON – SAME AS ALL PAGES */
+    .bottom-bar {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      pointer-events: none;
+      width: 100%;
+      text-align: center;
+    }
+    .back-btn {
+      display: inline-block;
+      background: white;
+      color: #001f3f;
+      padding: 18px 80px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 19px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      transition: all 0.35s ease;
+      pointer-events: all;
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+    .back-btn:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    @keyframes gentleFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+      .header h2 { font-size: 32px; }
+      .messages { height: 58vh; }
+      .back-btn { padding: 16px 60px; font-size: 18px; }
+      .bottom-bar { bottom: 20px; }
+    }
+  </style>
+</head>
+<body onload="renderMessages()">
+
+  <div class="header">
+    <h2>Anonymous Support Group</h2>
+    <p>You're not alone — share freely, no judgment</p>
+  </div>
+
+  <div class="chat-container">
+    <div class="messages" id="messages"></div>
+
+    <div class="input-area">
+      <input type="text" id="messageInput" placeholder="Share how you're feeling..." maxlength="300">
+      <button class="send-btn" onclick="sendMessage()">
+        Send
+      </button>
+    </div>
+  </div>
+
+  <!-- Fixed Back Button (same as all pages) -->
+  <div class="bottom-bar">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      Back to Dashboard
+    </button>
+  </div>
+
+  <script>
+    // Default messages + user messages
+    let messages = JSON.parse(localStorage.getItem("support_messages")) || [
+      { name: "Ayesha", text: "Feeling much better after today's meditation", time: "10:15 AM", own: false },
+      { name: "Ali", text: "Anyone tried the 4-7-8 breathing? It really works!", time: "10:08 AM", own: false },
+      { name: "Sara", text: "Just completed my daily goals — proud of myself today!", time: "9:55 AM", own: false },
+      { name: "Ahmed", text: "Good morning everyone! Let's make today better", time: "9:30 AM", own: false }
+    ];
+
+    const userName = localStorage.getItem("user_name") || "You";
+
+    function renderMessages() {
+      const container = document.getElementById("messages");
+      container.innerHTML = "";
+      messages.forEach(msg => {
+        const div = document.createElement("div");
+        div.className = "message " + (msg.own ? "own" : "other");
+        div.innerHTML = `
+          <div class="name">${msg.own ? userName : msg.name}</div>
+          ${msg.text}
+          <div class="time">${msg.time}</div>
+        `;
+        container.appendChild(div);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const now = new Date();
+      const time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+      messages.push({
+        name: userName,
+        text: text,
+        time: time,
+        own: true
+      });
+
+      localStorage.setItem("support_messages", JSON.stringify(messages));
+      input.value = "";
+      renderMessages();
+    }
+
+    document.getElementById("messageInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    renderMessages();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emergency Help - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    body {
+      background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e0f2ff;
+      text-align: center;
+      padding: 50px 20px 160px;
+      background-attachment: fixed;
+    }
+
+    .container { max-width: 600px; margin: 0 auto; }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: white;
+    }
+    .subtitle {
+      font-size: 20px;
+      opacity: 0.95;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      color: #88c8ff;
+    }
+
+    /* Emergency Buttons – Pakistan */
+    .emergency-btn {
+      display: block;
+      width: 92%;
+      max-width: 420px;
+      margin: 20px auto;
+      padding: 24px;
+      background: linear-gradient(135deg, #ff5252, #e74c3c);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      font-size: 21px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 12px 35px rgba(231, 76, 60, 0.5);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .emergency-btn::before {
+      content: ''; position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.7s;
+    }
+    .emergency-btn:hover::before { left: 100%; }
+    .emergency-btn:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 25px 50px rgba(231, 76, 60, 0.7);
+    }
+    .emergency-btn i { margin-right: 16px; font-size: 28px; }
+
+    .grounding {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 32px;
+      margin: 50px auto;
+      max-width: 500px;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .grounding h3 { font-size: 26px; margin-bottom: 16px; color: #00eeff; }
+
+    .breathe {
+      width: 180px; height: 180px;
+      background: rgba(0, 212, 255, 0.25);
+      border: 4px solid rgba(0, 212, 255, 0.5);
+      border-radius: 50%;
+      margin: 30px auto;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-size: 19px; font-weight: bold; color: white;
+      animation: breathe 8s infinite ease-in-out;
+      box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+    }
+    @keyframes breathe { 0%,100%{transform:scale(0.95)} 50%{transform:scale(1.25)} }
+
+    /* Same Fixed Back Button */
+    .bottom-bar {
+      position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%); z-index: 9999;
+      pointer-events: none; width: 100%; text-align: center;
+    }
+    .back-btn {
+      display: inline-block; background: white; color: #001f3f;
+      padding: 18px 80px; border-radius: 50px; font-weight: bold;
+      font-size: 19px; border: none; cursor: pointer;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      transition: all 0.35s ease; pointer-events: all;
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+    .back-btn:hover { transform: translateY(-8px) scale(1.05); box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+    @keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 36px; }
+      .emergency-btn { padding: 20px; font-size: 19px; }
+      .breathe { width: 150px; height: 150px; }
+      .back-btn { padding: 16px 60px; font-size: 18px; }
+      .bottom-bar { bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>You're Not Alone</h1>
+    <p class="subtitle">If you're in crisis or feeling suicidal right now,<br>please reach out. Help is available 24×7 — free & confidential.</p>
+    <!-- PAKISTAN ACTIVE HELPLINES (2025) -->
+    <button class="emergency-btn" onclick="window.location.href='tel:15'">
+      Police Emergency – 15
+    </button>
+
+    <button class="emergency-btn" onclick="window.location.href='tel:1122'">
+      Rescue 1122 (Ambulance/Fire) – 1122
+    </button>
+
+    <button class="emergency-btn" onclick="window.location.href='tel:03111117489'">
+      Umang Pakistan (Mental Health) – 0311-111-7489 (24×7)
+    </button>
+
+    <button class="emergency-btn" onclick="window.location.href='tel:03041118456'">
+      Taskeen Helpline – 0304-111-8456 (24×7)
+    </button>
+
+    <button class="emergency-btn" onclick="window.location.href='tel:03041118456'">
+      Rozan Helpline – 0800-22444 (Mon–Sat 10AM–6PM)
+    </button>
+
+    <button class="emergency-btn" onclick="window.location.href='tel:03009800000'">
+      Sehat Kahani Mental Health – 0300-9800000 (24×7)
+    </button>
+
+   <!-- Quick Grounding -->
+    <div class="grounding">
+      <h3>Feeling Overwhelmed?</h3>
+      <p>Try this quick breathing exercise:</p>
+      <div class="breathe">
+        <div>Breathe In</div>
+        <div style="margin:8px 0;font-size:16px;">Hold</div>
+        <div>Breathe Out</div>
+      </div>
+      <p>Repeat 5 times.<br>You are safe right now.</p>
+    </div>
+
+    <p style="margin-top:40px;opacity:0.9;">
+      You're doing great by reaching out.<br>
+      <strong>Help is just one call away.</strong>
+    </p>
+  </div>
+
+  <!-- Fixed Back Button -->
+  <div class="bottom-bar">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      Back to Dashboard
+    </button>
+  </div>
+
+</body>
+</html>

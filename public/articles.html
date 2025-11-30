@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mental Health Articles - Mind Well</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: linear-gradient(135deg, #001f3f 0%, #002b55 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e0f2ff;
+      padding-bottom: 160px;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+    .header h2 {
+      font-size: 42px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: white;
+    }
+    .header p {
+      font-size: 19px;
+      opacity: 0.9;
+      color: #88c8ff;
+    }
+
+    /* Articles Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .article-card {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      transition: all 0.5s ease;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .article-card:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    }
+
+    .article-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: 0.4s;
+    }
+    .article-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .article-content {
+      padding: 28px;
+    }
+    .article-content h3 {
+      font-size: 23px;
+      margin-bottom: 14px;
+      color: white;
+      font-weight: 600;
+    }
+    .article-content p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #88c8ff;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+    .read-more {
+      color: #00eeff;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 10px 20px;
+      background: rgba(0,238,255,0.15);
+      border-radius: 50px;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .read-more:hover {
+      background: #00eeff;
+      color: #001f3f;
+      transform: scale(1.08);
+    }
+
+    /* Full Article Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #001f3f;
+      z-index: 9999;
+      overflow-y: auto;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .modal-content {
+      max-width: 800px;
+      margin: 60px auto;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 45px;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .close-modal {
+      position: absolute;
+      top: 20px; right: 25px;
+      font-size: 10px;
+      cursor: pointer;
+      color: #88c8ff;
+      transition: 0.3s;
+    }
+    .close-modal:hover {
+      color: #00eeff;
+   
+    }
+    .modal h2 {
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: #00eeff;
+    }
+    .modal p {
+      font-size: 18px;
+      line-height: 2;
+      color: #e0f2ff;
+    }
+
+    /* FIXED BACK BUTTON – SAME AS ALL PAGES */
+    .bottom-bar {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      pointer-events: none;
+      width: 100%;
+      text-align: center;
+    }
+    .back-btn {
+      display: inline-block;
+      background: white;
+      color: #001f3f;
+      padding: 18px 80px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 19px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      transition: all 0.35s ease;
+      pointer-events: all;
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+    .back-btn:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    @keyframes gentleFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+      .header h2 { font-size: 34px; }
+      .article-content { padding: 20px; }
+      .modal-content { padding: 30px; margin: 30px auto; }
+      .back-btn { padding: 16px 60px; font-size: 18px; }
+      .bottom-bar { bottom: 20px; }
+    }
+  </style>
+</head>
+<body onload="loadArticles()">
+
+  <div class="container">
+    <div class="header">
+      <h2>Helpful Articles</h2>
+      <p>Read science-backed tips to improve your mental health daily</p>
+    </div>
+
+    <div class="articles-grid" id="articlesGrid"></div>
+  </div>
+
+  <!-- Full Article Modal -->
+  <div class="modal" id="articleModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">Close</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalContent"></p>
+    </div>
+  </div>
+
+  <!-- Fixed Back Button (same as all pages) -->
+  <div class="bottom-bar">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">
+      Back to Dashboard
+    </button>
+  </div>
+
+  <script>
+    const articles = [
+      {
+        title: "10 Ways to Reduce Anxiety Instantly",
+        img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800",
+        preview: "Feeling overwhelmed? Here are 10 proven techniques that work in under 5 minutes...",
+        full: "Anxiety can hit anytime. Try these:\n\n1. 4-7-8 Breathing: Inhale 4 sec, hold 7 sec, exhale 8 sec\n2. Grounding 5-4-3-2-1 technique\n3. Cold water on wrists\n4. Progressive muscle relaxation\n5. Write down your worries and close the notebook\n\nThese methods are backed by psychologists and used worldwide."
+      },
+      {
+        title: "How to Stop Overthinking Everything",
+        img: "https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=800",
+        preview: "Overthinking is the art of creating problems that don't exist. Here's how to break free...",
+        full: "80% of our thoughts are negative and repetitive. Try:\n• Set a 'worry time' of 15 minutes daily\n• Use the 5-minute rule: if you can't solve it in 5 min, let it go\n• Ask yourself: 'Will this matter in 5 years?'\n• Replace 'What if' with 'What is'\n\nRemember: You are not your thoughts."
+      },
+      {
+        title: "Morning Routine for Better Mental Health",
+        img: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800",
+        preview: "How you start your day determines how you live your day. Try this 7-step routine...",
+        full: "1. Wake up without phone for 30 min\n2. Drink water\n3. 5-minute meditation\n4. Journal 3 things you're grateful for\n5. Light exercise or stretching\n6. Healthy breakfast\n7. Set 3 priorities for the day\n\nPeople who follow morning routines report 60% less stress!"
+      },
+      {
+        title: "Signs You're Burnt Out (And What to Do)",
+        img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800",
+        preview: "Burnout isn't just being tired. Here are the real signs and recovery steps...",
+        full: "Warning signs:\n• Everything feels overwhelming\n• You're emotionally exhausted\n• Small tasks feel impossible\n• You feel detached from everything\n\nRecovery:\n• Say NO without guilt\n• Take a full day off devices\n• Sleep 8+ hours\n• Talk to someone\n• Remember: Rest is productive"
+      },
+      {
+        title: "How to Build Self-Confidence Daily",
+        img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800",
+        preview: "Confidence isn't something you're born with – it's built through small daily actions...",
+        full: "Daily habits:\n• Celebrate small wins\n• Dress well even at home\n• Speak kindly to yourself\n• Stand tall (power pose 2 min)\n• Help someone else\n• Learn one new thing daily\n\nConfidence compounds like money in a bank!"
+      },
+      {
+        title: "Why You Can't Sleep (And Real Fixes)",
+        img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800",
+        preview: "85% of people have sleep issues. Here are the real reasons and solutions...",
+        full: "Common causes:\n• Blue light 2 hours before bed\n• Caffeine after 2 PM\n• Overthinking in bed\n• Irregular sleep schedule\n\nFixes:\n• No screens 1 hour before bed\n• Same bedtime daily\n• Write worries before sleep\n• Magnesium or chamomile tea\n• Cool, dark room"
+      }
+    ];
+
+    function loadArticles() {
+      const grid = document.getElementById("articlesGrid");
+      articles.forEach((art, i) => {
+        const card = document.createElement("div");
+        card.className = "article-card";
+        card.onclick = () => openArticle(i);
+        card.innerHTML = `
+          <img src="${art.img}" alt="${art.title}">
+          <div class="article-content">
+            <h3>${art.title}</h3>
+            <p>${art.preview}</p>
+            <a href="#" class="read-more" onclick="event.stopPropagation(); openArticle(${i});">Read Full Article</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openArticle(index) {
+      document.getElementById("modalTitle").textContent = articles[index].title;
+      document.getElementById("modalContent").innerHTML = articles[index].full.replace(/\n/g, "<br><br>");
+      document.getElementById("articleModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("articleModal").style.display = "none";
+    }
+
+    // Close modal with Escape key
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    // Close when clicking outside
+    window.onclick = function(e) {
+      const modal = document.getElementById("articleModal");
+      if (e.target === modal) closeModal();
+    }
+
+    loadArticles();
+  </script>
+</body>
+</html>
